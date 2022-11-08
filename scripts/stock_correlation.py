@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import numpy as np
 import pandas as pd
 import pandas_datareader.data as web
@@ -75,7 +76,9 @@ class TickerCorrelation:
 
 	def calculate_correlation(self):
 
-		self.calculate_correlation_total()
+		self.df['dailychange1'] = self.df[self.stock1].pct_change()
+		self.df['dailychange2'] = self.df[self.stock2].pct_change()
+		self.df['TotalCorrelation'] = self.df['dailychange1'].corr(self.df['dailychange2'])
 
 		#Correlation test section
 		self.corr_df = self.df.groupby('Month')[[self.stock1, self.stock2]].corr()
@@ -138,6 +141,17 @@ class TickerCorrelation:
 		self.df['dailychange2'] = self.df[self.stock2].pct_change()
 
 		return (self.df['dailychange1'].corr(self.df['dailychange2']))
+	
+	# create a function to get the correlation for a specific month
+	def get_monthly_correlation(self, stock1, stock2, month):
+		self.stock1 = stock1
+		self.stock2 = stock2
+		self.get_stock_data(self)
+		self.first_df_format(self)
+		self.calculate_correlation(self)
+		self.second_df_format(self)
+		self.df_master = self.df_master[self.df_master['Month'] == month]
+		return (self.df_master['MonthlyCorrelation'].values[0])
 		
 
 	def print_total_correlation(self):
