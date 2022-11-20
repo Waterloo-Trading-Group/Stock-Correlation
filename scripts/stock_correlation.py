@@ -141,18 +141,16 @@ class TickerCorrelation:
 		self.df['dailychange2'] = self.df[self.stock2].pct_change()
 
 		return (self.df['dailychange1'].corr(self.df['dailychange2']))
-	
-	# create a function to get the correlation for a specific month
-	def get_monthly_correlation(self, stock1, stock2, month):
+
+	def get_valid_pairs(self, stock1, stock2):
 		self.stock1 = stock1
 		self.stock2 = stock2
 		self.get_stock_data(self)
 		self.first_df_format(self)
-		self.calculate_correlation(self)
-		self.second_df_format(self)
-		self.df_master = self.df_master[self.df_master['Month'] == month]
-		return (self.df_master['MonthlyCorrelation'].values[0])
-		
+		self.df['dailychange1'] = self.df[self.stock1].pct_change()
+		self.df['dailychange2'] = self.df[self.stock2].pct_change()
+
+		return (self.df['dailychange1'].corr(self.df['dailychange2']) > 0.75)
 
 	def print_total_correlation(self):
 		print(self.df_master['TotalCorrelation'].iloc[0])
