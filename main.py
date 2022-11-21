@@ -3,6 +3,8 @@ from fastapi import FastAPI
 from models.total_stock_corr import total_stock_correlation_model
 from models.monthly_stock_corr import monthly_stock_correlation_model
 from scripts.stock_correlation import TickerCorrelation
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
 
@@ -29,5 +31,20 @@ async def valid_pairs(stock1: str, stock2: str):
     validPairs = TickerCorrelation.get_valid_pairs(TickerCorrelation, stock1, stock2)
     # generate a new stock_correlation_model object
     return validPairs
+
+# allow any request from any origin
+origins = [
+    "*"
+]
+
+# allow any request from any origin
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 
