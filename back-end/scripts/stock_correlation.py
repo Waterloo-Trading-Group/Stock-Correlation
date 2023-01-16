@@ -37,6 +37,7 @@ class TickerCorrelation:
 
 		#Create a new dataframe with the monthly average
 		self.corr_df = self.df.groupby(['month', 'year']).mean()
+		print(self.corr_df.head())
 		
 		# Kendal Correlation
 		self.corr_df2 = self.corr_df.pct_change().corr(method='kendall')
@@ -50,5 +51,7 @@ class TickerCorrelation:
 			"Pearson": self.corr_df3[stock1][stock2],
 			"Spearman": self.corr_df4[stock1][stock2],
 		}
+
+		print(jsonObj)
 
 		return jsonObj
