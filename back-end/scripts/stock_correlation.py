@@ -52,6 +52,3 @@ class TickerCorrelation:
 		}
 
 		return jsonObj
-
-
-

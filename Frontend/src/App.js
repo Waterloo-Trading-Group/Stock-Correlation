@@ -15,7 +15,7 @@ function App() {
 
   async function getData(stock1, stock2) {
   
-    axios.get('http://127.0.0.1:8000/stock_correlation/' + stock1 + '/' + stock2)
+    axios.get('https://bfviz6.deta.dev/stock_correlation/' + stock1 + '/' + stock2)
     .then((response) => {
       const data = response.data;
       const kcorrelation = data['Kendall'];
